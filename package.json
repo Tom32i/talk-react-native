@@ -1,0 +1,11 @@
+{
+  "name": "react-native",
+  "version": "1.0.0",
+  "description": "Le développement natif vu par un développeur web",
+  "main": "index.html",
+  "author": "Thomas Jarrand",
+  "license": "MIT",
+  "dependencies": {
+    "reveal.js": "^3.3.0"
+  }
+}

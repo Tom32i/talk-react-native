@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>REX React Native</title>
+
+        <link rel="stylesheet" href="./node_modules/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="./node_modules/reveal.js/css/theme/beige.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="./node_modules/reveal.js/lib/css/zenburn.css">
+
+        <style type="text/css">
+            .reveal section .avatar {
+                border: none;
+                box-shadow: none;
+                border-radius: 50%;
+                max-width: 25%;
+                display: block;
+                margin: 0 auto;
+            }
+
+            .reveal section .talk-title {
+                font-size: 3.4em;
+            }
+
+            .reveal section .hashtag {
+                color: white;
+                text-transform: none;
+            }
+
+            .reveal section .center {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .reveal section .élao {
+                background-color: #f34141;
+                width: 2em;
+                height: 2em;
+                padding: 0.5em;
+                line-height: 0;
+                display: inline-block;
+            }
+            .reveal section .élao > img {
+                max-width: 100%;
+            }
+
+            .reveal section .emoji {
+                font-size: 3em;
+            }
+
+            .reveal section .row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            .reveal section .row > * {
+                flex: 1;
+            }
+
+            .reveal section img.none {
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                margin: 0;
+            }
+
+            .reveal section ul.none {
+                list-style: none;
+            }
+
+            .reveal section .realm {
+                height: 1em;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1 class="talk-title">
+                        Le développement mobile natif<br />vu par un developpeur web
+                    </h1>
+                    <!-- Un an et deux apps en production plus tard, retour sur mon expérience React Native. Rappel sur son fonctionnement, comment il se distingue de la concurrence, ses points forts, ses points faibles et mes recommandations en tant que développeur web. -->
+                </section>
+                <section>
+                    <section data-background="#2aa3ef">
+                        <h2 class="hashtag">
+                            #ReactNative
+                        </h2>
+                        <!--blockquote class="twitter-tweet" data-lang="fr"><p lang="fr" dir="ltr"><a href="https://twitter.com/hashtag/protip?src=hash&amp;ref_src=twsrc%5Etfw">#protip</a> du jour : <a href="https://twitter.com/hashtag/ReactNative?src=hash&amp;ref_src=twsrc%5Etfw">#ReactNative</a> permet à une équipe dev web de sortir un app native performant, convaincante et multi-plateforme, sans compromis sur les fonctionnalités, de manière rapide et efficace. <br>Vous l&#39;aurez compris, je suis convaincu.</p>&mdash; Thomas Jarrand (@Tom32i) <a href="https://twitter.com/Tom32i/status/958617663110090752?ref_src=twsrc%5Etfw">31 janvier 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script-->
+                    </section>
+                    <section>
+                        <h2 class="center">
+                            <p style="text-transform: lowercase;">@tom32i</p>
+                            <span style="margin: 0 1em;">&times;</span>
+                            <span class="élao">
+                                <img class="none" width="498" height="185" src="https://www.elao.com/images/elao.svg" title="élao" alt="élao">
+                            </span>
+                        </h2>
+                        <!--p>Developpeurs web</p-->
+                    </section>
+                    <section>
+                        <h2 class="emoji">📲</h2>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>Qu'est-ce que c'est ?</h1>
+                    </section>
+                    <section>
+                        <h2>Pas une webview!</h2>
+                    </section>
+                    <section>
+                        <img class="none" src="img/webview.svg">
+                    </section>
+                    <section>
+                        <h2>Du react qui pilote des composants natifs</h2>
+                        <ul>
+                            <li class="fragment">Design en composants</li>
+                            <li class="fragment">Workflow react</li>
+                            <li class="fragment">Rend des blocks natifs</li>
+                        </ul>
+                        <!-- schema natif ? -->
+                    </section>
+                    <section>
+                        <img class="none" src="img/natif.svg">
+                    </section>
+                    <section>
+                        <h2>Pas vraiment du react js</h2>
+                        <ul>
+                            <li class="fragment">Style</li>
+                            <li class="fragment">Composants natifs</li>
+                            <li class="fragment">Organisation et navigation</li>
+                        </ul>
+                        <!-- Concretement: exemple composant -->
+                    </section>
+                    <section>
+                        <pre><code class="hljs js">import React, { Component } from 'react';
+import { Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+
+export default class Login extends Component {
+  // ...
+  render() {
+    return (
+      &lt;ScrollView&gt;
+        &lt;TextInput onChangeText={email =&gt; this.setState({ email })} style={styles.input} /&gt;
+        &lt;TouchableOpacity onPress={this.send} style={styles.button}&gt;
+          &lt;Text&gt;Log me in&lt;/Text&gt;
+        &lt;/TouchableOpacity&gt;
+      &lt;/ScrollView&gt;
+    );
+  }
+}</code></pre>
+                    </section>
+                    <section>
+                        <pre><code class="hljs js">// ...
+
+export default class Login extends Component {
+  static styles = StyleSheet.create({
+    input: {
+      padding: 20,
+    },
+    button: {
+      backgroundColor: 'white',
+      color: 'blue',
+    },
+  });
+
+  // ...
+}</code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Développement</h2>
+                    </section>
+                    <section>
+                        <h3>Génération ✨</h3>
+                        <code>react-native init</code>
+                        <!-- Génère les apps natives -->
+                    </section>
+                    <section>
+                        <h3>Workflow ⌨️</h3>
+                        <ul>
+                            <li class="fragment">Packager : <code>react-native start</code></li>
+                            <!-- Tourne et watch votre code JS -->
+                            <li class="fragment">Votre app dans un device : <code>react-native run-ios</code></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Mise en production 🚀</h3>
+                        <ul>
+                            <li class="fragment">Releases natives : <code>xcodebuild</code> / <code>gradle</code></li>
+                            <li class="fragment">Build JS intégré</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Demo ! 🤩</h2>
+                        <!-- Concretement: exemple composant -->
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Notre bilan</h2>
+                    </section>
+                    <section>
+                        <h3>Fonctionnalités</h3>
+                        <ul class="none">
+                            <li class="fragment">🛠 UI Kits natifs</li>
+                            <!-- assez génériques -->
+                            <li class="fragment">🤠 Modules de la communauté</li>
+                            <!-- ex: code barre vs signature -->
+                            <li class="fragment">⚙️ Compatible avec JS</li>
+                            <!-- moment, I18n, #leftPad -->
+                            <li class="fragment">📱 Limites natives</li>
+                            <!-- overflow, dégradé, SVG -->
+                            <li class="fragment">👯‍♀️ Pas de multi-app ?</li>
+                            <!-- Marque blanche / multi environnement -->
+                            <li class="fragment">🕹 Pas adapté pour du très interactif</li>
+                            <!-- jeux video -->
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Coût et production</h3>
+                        <ul class="none">
+                            <li class="fragment">🎉 Du natif bi-plateforme en JS !</li>
+                            <li class="fragment">🔒 Du vrai natif...</li>
+                            <!-- pas declinable en web -->
+                            <li class="fragment">⚠️ Attention à la marche</li>
+                            <!-- Navigation, CSS -->
+                            <li class="fragment">⚡️ Productivité</li>
+                            <li class="fragment">🏋️‍♀️ Builds, stores, release ...</li>
+                            <!-- Une nouvelle gymnastique -->
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Résultats</h3>
+                        <ul class="none">
+                            <li class="fragment">📱 Vrai feeling natif</li>
+                            <li class="fragment">💪 Performances très satisfaisantes</li>
+                            <li class="fragment">🗣 Très bons retours utilisateurs</li>
+                            <li class="fragment">🍏 Passe bien la validation Apple</li>
+                            <li class="fragment">🎯 Un peu de spécifique plateforme</li>
+                            <li class="fragment">⚖️ Poids raisonable (< 10Mb)</li>
+                            <li class="fragment">🎢 Mise à jour dans le temps ?</li>
+                            <li class="fragment">🥈 Ça ne remplace pas le natif</li>
+                        </ul>
+                    </section>
+                    <section data-background="#4ae36b">
+                        <h2 style="color: white;">Vous avez mon feu vert !</h2>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Quelques conseils pour vous lancer</h3>
+                        <ul>
+                            <li class="fragment">Faites-vous la main</li>
+                            <li class="fragment">Vérifiez la faisabilité des points clés</li>
+                            <li class="fragment">Soyez prudents avec la navigation</li>
+                            <li class="fragment">Attention aux "UI frameworks"</li>
+                            <li class="fragment">
+                                <a href="https://realm.io/docs/javascript/latest/" target="_blank">
+                                    <img class="none realm" src="https://realm.io/assets/svg/general_logo.svg" alt="Realm.io">
+                                </a>
+                            </li>
+                            <!--li class="fragment">Faites vous aider 😉</li-->
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <div style="display: flex; flex-direction: column-reverse;">
+                        <div class="row">
+                            <div style="flex: 2;">
+                                <h3>Ressources</h3>
+                                <p>🐙 <a href="https://github.com/Tom32i/talk-react-native">Tom32i/talk-react-native</a></p>
+                                <p>📰 <a href="https://blog.elao.com/en/dev/from-react-native-init-to-app-stores-real-quick/" target="_blank">Configuration des stores</a></p>
+                                <p>📰 <a href="https://blog.octo.com/des-developpeurs-mobiles-font-leurs-premiers-pas-avec-react-native/" target="_blank">React Native vu par une équipe mobile</a></p>
+                            </div>
+                            <div class="fragment">
+                                <a target="_blank" href="https://twitter.com/Tom32i">
+                                    <img class="avatar" src="https://pbs.twimg.com/profile_images/446924259328131072/tCLuF8mt_400x400.jpeg">
+                                    <p>@Tom32i</p>
+                                </a>
+                            </div>
+                        </div>
+                        <h1 class="fragment" style="margin-bottom: 0.4em;">Merci !</h1>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <script src="./node_modules/reveal.js/lib/js/head.min.js"></script>
+        <script src="./node_modules/reveal.js/js/reveal.js"></script>
+
+        <script>
+            Reveal.initialize({
+                history: true,
+                overview: false,
+                help: false,
+
+                width: 1280,
+                height: 720,
+
+                // Factor of the display size that should remain empty around the content
+                margin: 0.1,
+
+                // Bounds for smallest/largest possible scale to apply to content
+                minScale: 0.2,
+                maxScale: 1.5,
+
+                dependencies: [
+                    { src: './node_modules/reveal.js/plugin/markdown/marked.js' },
+                    { src: './node_modules/reveal.js/plugin/markdown/markdown.js' },
+                    { src: './node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
